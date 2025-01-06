@@ -6,7 +6,7 @@ const Home = () => {
 <>
 <main className="h-[84.5vh]">
     <section className="grid grid-cols-2 h-[85.5vh]">
-      <div className="bg-purple-100 flex flex-col gap-4 items-center justify-center">
+      <div className="bg-red-800 flex flex-col gap-4 items-center justify-center">
        <p className="text-2xl font-bold"> The best QR Code Generator in the Market</p>
       <p>We are the most straightfoward QR Code Generator in the world</p>
       <div className="flex justify-start gap-2">
