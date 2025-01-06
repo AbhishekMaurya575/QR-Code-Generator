@@ -1,22 +1,38 @@
 import React, { useState } from "react";
 import QRCode from "qrcode";
+import conf from "../conf/conf";
+import service from "../appwrite/config";
+import { ID } from "appwrite";
 
 const CreateQR = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [type, setType] = useState("url");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const qrcodegenerator = async () => {
     const text = document.getElementById("text").value;
 
-    if (text) {
+    if (text && username) {
       try {
         const url = await QRCode.toDataURL(text);
         setQrCodeUrl(url);
+        const uniqueTitle = ID.unique();
+        await service.createDocument(
+          {
+            data: text,
+            data2: url,
+            password: password,
+            title: uniqueTitle,
+            username: username,
+          },
+          uniqueTitle
+        );
       } catch (err) {
-        console.error(err);
+        console.error("Error generating QR code:", err);
       }
     } else {
-      alert("Please enter text or URL");
+      alert("Please enter text or URL and password");
     }
   };
 
@@ -64,6 +80,22 @@ const CreateQR = () => {
             id="text"
             className="w-full text-xl pl-2 outline-none"
             placeholder={`Enter your ${type}`}
+          />
+          <input
+            type="password"
+            id="password"
+            className="w-full text-xl pl-2 outline-none mt-4"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="username"
+            id="username"
+            className="w-full text-xl pl-2 outline-none mt-4"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <button
