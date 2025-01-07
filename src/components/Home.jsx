@@ -4,14 +4,14 @@ import { NavLink } from "react-router-dom";
 const Home = () => {
   return (
     <>
-      <main className="h-[84.5vh]">
-        <section className="grid grid-cols-2 h-[85.5vh]">
-          <div className="bg-purple-100 flex flex-col gap-4 items-center justify-center">
-            <p className="text-2xl font-bold">
+      <main className="h-[84.5vh] ">
+        <section className=" lg:flex   h-[85.5vh]">
+          <div className="bg-purple-100 w-full  lg:w-1/2 h-1/2 lg:h-full flex flex-col gap-4 items-center justify-center lg:items-center lg:justify-center ">
+            <p className="text-2xl font-bold items-center justify-center text-center ">
               {" "}
               The best QR Code Generator in the Market
             </p>
-            <p>We are the most straightfoward QR Code Generator in the world</p>
+            <p className="text-center text-xl">We are the most straightfoward QR Code Generator in the world</p>
             <div className="flex justify-start gap-2">
               <NavLink
                 to="/CreateQR"
@@ -35,7 +35,7 @@ const Home = () => {
               </NavLink>
             </div>
           </div>
-          <div className="bg-purple-100 flex justify-start relative"></div>
+          <div className="bg-purple-100 h-1/2 lg:h-full   lg:w-1/2 flex justify-start relative w-full">hi</div>
         </section>
       </main>
     </>

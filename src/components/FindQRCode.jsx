@@ -34,7 +34,7 @@ const FindQRCode = () => {
   };
 
   return (
-    <div className="mx-auto max-w-lg bg-purple-100 my-16 p-8 rounded-lg flex flex-col gap-4 h-[67vh]">
+    <div className="mx-auto max-w-lg bg-purple-100  my-16 p-8 rounded-lg flex flex-col gap-4 h-[67vh]">
       <h1 className="font-bold text-2xl">Find your QR Codes</h1>
       <div className="flex flex-col gap-2">
         <input

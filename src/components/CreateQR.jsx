@@ -6,28 +6,42 @@ import { ID } from "appwrite";
 
 const CreateQR = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [url, setUrl] = useState("");
   const [type, setType] = useState("url");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
 
-  const qrcodegenerator = async () => {
-    const text = document.getElementById("text").value;
+  const resetState = () => {
     setPassword("");
-    setQrCodeUrl("");
+    setUrl("");
     setUsername("");
     setTitle("");
+  };
+
+  const generateQRCode = async (text) => {
+    try {
+      const url = await QRCode.toDataURL(text);
+      setQrCodeUrl(url);
+      return url;
+    } catch (err) {
+      console.error("Error generating QR code:", err);
+      throw err;
+    }
+  };
+
+  const qrcodegenerator = async () => {
+    const text = document.getElementById("text").value;
+    resetState();
 
     if (text && username && password) {
       try {
         const documents = await service.getDocuments(username, password);
         if (documents.length > 0) {
           if (documents[0].password === password) {
-            const url = await QRCode.toDataURL(text);
-            setPassword("");
-            setQrCodeUrl("");
-            setUsername("");
-            setTitle("");
+            const url = await generateQRCode(text);
+            resetState();
+            alert("done");
             const uniqueTitle = ID.unique();
             await service.createDocument(
               {
@@ -43,13 +57,9 @@ const CreateQR = () => {
             alert("Password is not correct. Please try again.");
           }
         } else {
-          const url = await QRCode.toDataURL(text);
-          setQrCodeUrl(url);
+          const url = await generateQRCode(text);
           const uniqueTitle = ID.unique();
-          setPassword("");
-          setQrCodeUrl("");
-          setUsername("");
-          setTitle("");
+          resetState();
           await service.createDocument(
             {
               data: text,
@@ -62,7 +72,7 @@ const CreateQR = () => {
           );
         }
       } catch (err) {
-        console.error("Error generating QR code:", err);
+        console.error("Error processing documents:", err);
       }
     } else {
       alert("Please enter text, username, and password.");
@@ -70,7 +80,7 @@ const CreateQR = () => {
   };
 
   return (
-    <div className="mx-auto max-w-lg bg-purple-100 my-16 p-8 rounded-lg flex flex-col gap-4 h-[67vh]">
+    <div className="mx-auto max-w-lg bg-purple-100 my-[60.5px] p-8 rounded-lg flex flex-col gap-4 h-[68vh]">
       <h1 className="font-bold text-2xl">Generate your QR Code</h1>
       <div className="flex flex-col gap-2">
         <div>
@@ -113,6 +123,8 @@ const CreateQR = () => {
             id="text"
             className="w-full text-xl pl-2 outline-none"
             placeholder={`Enter your ${type}`}
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
           <input
             type="password"
@@ -140,13 +152,13 @@ const CreateQR = () => {
           />
         </div>
         <button
-          className="font-bold text-white my-3 bg-purple-500 rounded-lg shadow-lg p-3 py-1"
+          className="font-bold text-white my-2 bg-purple-500 rounded-lg shadow-lg p-3 py-1"
           onClick={qrcodegenerator}
         >
           Generate
         </button>
       </div>
-      <div className="flex justify-center items-center bg-red-500 w-full h-full rounded-3xl">
+      <div className="flex justify-center items-center w-full h-full rounded-3xl">
         {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
       </div>
     </div>
