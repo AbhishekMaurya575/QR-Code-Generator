@@ -9,30 +9,63 @@ const CreateQR = () => {
   const [type, setType] = useState("url");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
 
   const qrcodegenerator = async () => {
     const text = document.getElementById("text").value;
+    setPassword("");
+    setQrCodeUrl("");
+    setUsername("");
+    setTitle("");
 
-    if (text && username) {
+    if (text && username && password) {
       try {
-        const url = await QRCode.toDataURL(text);
-        setQrCodeUrl(url);
-        const uniqueTitle = ID.unique();
-        await service.createDocument(
-          {
-            data: text,
-            data2: url,
-            password: password,
-            title: uniqueTitle,
-            username: username,
-          },
-          uniqueTitle
-        );
+        const documents = await service.getDocuments(username, password);
+        if (documents.length > 0) {
+          if (documents[0].password === password) {
+            const url = await QRCode.toDataURL(text);
+            setPassword("");
+            setQrCodeUrl("");
+            setUsername("");
+            setTitle("");
+            const uniqueTitle = ID.unique();
+            await service.createDocument(
+              {
+                data: text,
+                data2: url,
+                password: password,
+                title: title,
+                username: username,
+              },
+              uniqueTitle
+            );
+          } else {
+            alert("Password is not correct. Please try again.");
+          }
+        } else {
+          const url = await QRCode.toDataURL(text);
+          setQrCodeUrl(url);
+          const uniqueTitle = ID.unique();
+          setPassword("");
+          setQrCodeUrl("");
+          setUsername("");
+          setTitle("");
+          await service.createDocument(
+            {
+              data: text,
+              data2: url,
+              password: password,
+              title: title,
+              username: username,
+            },
+            uniqueTitle
+          );
+        }
       } catch (err) {
         console.error("Error generating QR code:", err);
       }
     } else {
-      alert("Please enter text or URL and password");
+      alert("Please enter text, username, and password.");
     }
   };
 
@@ -90,7 +123,15 @@ const CreateQR = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <input
-            type="username"
+            type="text"
+            id="title"
+            className="w-full text-xl pl-2 outline-none mt-4"
+            placeholder="Enter your title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <input
+            type="text"
             id="username"
             className="w-full text-xl pl-2 outline-none mt-4"
             placeholder="Enter your username"

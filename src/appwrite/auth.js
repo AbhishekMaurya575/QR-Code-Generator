@@ -4,7 +4,6 @@ import conf from "../conf/conf";
 export class AuthService {
   Client = new Client();
   account;
-
   constructor() {
     this.Client.setEndpoint(conf.appwriteUrl).setProject(
       conf.appwriteProjectId

@@ -7,13 +7,29 @@ const Navbar = () => {
       <div className="logo font-bold text-lg">QR Code Generator !</div>
 
       <ul className="flex justify-center items-center gap-4">
-      <NavLink to="/" className={({ isActive }) => (isActive ? 'text-red-500' : 'text-white')}>
-        <li>Home</li></NavLink>
-        <NavLink to="/CreateQR" className={({ isActive }) => (isActive ? 'text-red-500' : 'text-white')}>
-        <li>Create QR</li>
-       </NavLink>
-       <NavLink to="/FindQRCode" className={({ isActive }) => (isActive ? 'text-red-500' : 'text-white')}>
-        <li>Find QR Code</li>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "text-red-500" : "text-white"
+          }
+        >
+          <li>Home</li>
+        </NavLink>
+        <NavLink
+          to="/CreateQR"
+          className={({ isActive }) =>
+            isActive ? "text-red-500" : "text-white"
+          }
+        >
+          <li>Create QR</li>
+        </NavLink>
+        <NavLink
+          to="/FindQRCode"
+          className={({ isActive }) =>
+            isActive ? "text-red-500" : "text-white"
+          }
+        >
+          <li>Find QR Code</li>
         </NavLink>
       </ul>
     </nav>

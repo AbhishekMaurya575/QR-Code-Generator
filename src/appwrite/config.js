@@ -42,16 +42,16 @@ export class Service {
     }
   }
 
-  async getDocument(username, password) {
+  async getDocuments(username, password) {
     try {
       const result = await this.database.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         [Query.equal("username", username), Query.equal("password", password)]
       );
-      return result.documents[0];
+      return result.documents;
     } catch (error) {
-      console.error("Error getting document:", error);
+      console.error("Error getting documents:", error);
       throw error;
     }
   }
