@@ -7,6 +7,10 @@ const FindQRCode = () => {
   const [documents, setDocuments] = useState([]);
   const [qrCodeUrls, setQrCodeUrls] = useState([]);
 
+  const resetState = () => {
+    setFormData({ username: "", password: "" });
+  };
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
@@ -19,10 +23,12 @@ const FindQRCode = () => {
         formData.password
       );
       if (documents.length > 0) {
+        resetState();
         setDocuments(documents.map((doc) => doc.title));
         setQrCodeUrls(documents.map((doc) => doc.data2));
         console.log("Documents found:", documents);
       } else {
+        resetState();
         alert("Invalid username or password. Please try again.");
       }
     } catch (err) {
@@ -65,7 +71,7 @@ const FindQRCode = () => {
           {qrCodeUrls.map((url, index) => (
             <div
               key={index}
-              className="justify-center items-center flex-col flex"
+              className="justify-center gap-0 items-center flex-col flex"
             >
               <img src={url} alt={`QR Code ${index + 1}`} />
               <h1>{documents[index]}</h1>
