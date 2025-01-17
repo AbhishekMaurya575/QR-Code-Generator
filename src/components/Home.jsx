@@ -6,7 +6,7 @@ const Home = () => {
     <>
       <main className="h-[84.5vh] ">
         <section className=" lg:flex   h-[85.5vh]">
-          <div className="bg-red-900 w-full  lg:w-1/2 h-1/2 lg:h-full flex flex-col gap-4 items-center justify-center lg:items-center lg:justify-center ">
+          <div className="bg-purple-100 w-full  lg:w-1/2 h-1/2 lg:h-full flex flex-col gap-4 items-center justify-center lg:items-center lg:justify-center ">
             <p className="text-2xl font-bold items-center justify-center text-center ">
               {" "}
               The best QR Code Generator in the Market
@@ -35,7 +35,7 @@ const Home = () => {
               </NavLink>
             </div>
           </div>
-          <div className="bg-purple-100 h-1/2 lg:h-full   lg:w-1/2 flex justify-start relative w-full">hi</div>
+          <div className="bg-purple-100 h-1/2 lg:h-full   lg:w-1/2 flex justify-start relative w-full"></div>
         </section>
       </main>
     </>
