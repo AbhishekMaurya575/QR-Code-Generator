@@ -32,34 +32,36 @@ const CreateQR = () => {
 
   const qrcodegenerator = async () => {
     const text = document.getElementById("text").value;
-    resetState();
 
     if (text && username && password) {
       try {
-        const documents = await service.getDocuments(username, password);
-        if (documents.length > 0) {
-          if (documents[0].password === password) {
-            const url = await generateQRCode(text);
-            resetState();
-            alert("done");
-            const uniqueTitle = ID.unique();
-            await service.createDocument(
-              {
-                data: text,
-                data2: url,
-                password: password,
-                title: title,
-                username: username,
-              },
-              uniqueTitle
-            );
-          } else {
-            alert("Password is not correct. Please try again.");
-          }
+        if (text.length > 4000) {
+          // Save the text in Appwrite
+          const uniqueTitle = ID.unique();
+          const document = await service.createDocument(
+            {
+              data: text,
+              data2: "", 
+              password: password,
+              title: title,
+              username: username,
+            },
+            uniqueTitle
+          );
+          const documentId = document.$id;
+      
+          const url = await generateQRCode(`https://qr-code-generator-in.vercel.app`);
+          await service.updateDocument(
+            documentId,
+            {
+              data2: url,
+            }
+          );
+          alert("done");
+          resetState();
         } else {
           const url = await generateQRCode(text);
           const uniqueTitle = ID.unique();
-          resetState();
           await service.createDocument(
             {
               data: text,
@@ -70,6 +72,8 @@ const CreateQR = () => {
             },
             uniqueTitle
           );
+          alert("done");
+          resetState();
         }
       } catch (err) {
         console.error("Error processing documents:", err);
