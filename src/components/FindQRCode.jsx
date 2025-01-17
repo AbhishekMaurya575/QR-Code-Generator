@@ -63,7 +63,7 @@ const FindQRCode = () => {
           className="font-bold text-white my-3 bg-purple-500 rounded-lg shadow-lg p-3 py-1"
           onClick={fetchDocuments}
         >
-          Fetch Documents
+          Get QR Codes
         </button>
       </div>
       <div className="flex flex-col gap-4">
